@@ -1,8 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { LoginFormService } from '../../services/login-form.service';
 
 @Component({
-  selector: 'login-component',
+  selector: 'login-form',
   imports: [ReactiveFormsModule /*RouterLink*/],
   template: `
     <!-- From Uiverse.io by themrsami -->
@@ -18,7 +19,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
           class="bg-white p-16 rounded-lg shadow-2xl w-80 relative z-10 transform transition duration-500 ease-in-out"
         >
           <h2 id="form-title" class="text-center text-3xl font-bold mb-10 text-gray-800">Login</h2>
-          <form [formGroup]="formLogin" (ngSubmit)="click()" class="space-y-5">
+          <form [formGroup]="service.formLogin" (ngSubmit)="service.click()" class="space-y-5">
             <input
               class="w-full h-12 border border-gray-800 px-3 rounded-lg"
               placeholder="Email"
@@ -46,20 +47,14 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
     </div>
   `,
 })
-export class Login {
-  private fb = inject(FormBuilder);
-  public formLogin: FormGroup = this.createFormLogin();
+export class LoginForm {
+  protected service = inject(LoginFormService);
 
-  createFormLogin(): FormGroup {
-    return this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-    });
+  get getFormLogin() {
+    return this.service.formLogin;
   }
 
-  click() {
-    const value = this.formLogin.value;
-
-    console.log(value);
+  set setFormLogin(value: string) {
+    const content = value;
   }
 }
