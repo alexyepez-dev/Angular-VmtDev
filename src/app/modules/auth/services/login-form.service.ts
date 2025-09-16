@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Injectable({
@@ -15,5 +15,14 @@ export class LoginFormService {
   click() {
     const value = this.formLogin.value;
     console.log(value);
+  }
+
+  getError(controlName: string): string | null {
+    const control = this.formLogin.get(controlName);
+    if (control?.touched && control.errors) {
+      if (control.errors['required']) return 'Este campo es obligatorio.';
+      if (control.errors['email']) return 'Formato de email inválido.';
+    }
+    return null;
   }
 }

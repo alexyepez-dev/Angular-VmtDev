@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { LoginFormService } from '../../services/login-form.service';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'login-form',
-  imports: [ReactiveFormsModule /*RouterLink*/],
+  imports: [ReactiveFormsModule],
   template: `
-    <!-- From Uiverse.io by themrsami -->
     <div
       class="flex items-center justify-center h-full w-full bg-gradient-to-r from-purple-400 via-pink-500 to-red-500"
     >
@@ -27,6 +27,7 @@ import { LoginFormService } from '../../services/login-form.service';
               formControlName="email"
               required
             />
+            <strong class="text-red-500"> {{service.getError('email')}} </strong>
             <input
               class="w-full h-12 border border-gray-800 px-3 rounded-lg"
               placeholder="Password"
@@ -34,6 +35,7 @@ import { LoginFormService } from '../../services/login-form.service';
               formControlName="password"
               required
             />
+            <strong class="text-red-500"> {{service.getError('password')}} </strong>
             <button
               type="submit"
               class="w-full h-12 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -49,12 +51,4 @@ import { LoginFormService } from '../../services/login-form.service';
 })
 export class LoginForm {
   protected service = inject(LoginFormService);
-
-  get getFormLogin() {
-    return this.service.formLogin;
-  }
-
-  set setFormLogin(value: string) {
-    const content = value;
-  }
 }
