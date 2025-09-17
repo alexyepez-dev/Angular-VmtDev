@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginFormService } from '../../services/login-form.service';
-import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'login-form',
@@ -27,7 +26,9 @@ import { JsonPipe } from '@angular/common';
               formControlName="email"
               required
             />
-            <strong class="text-red-500"> {{service.getError('email')}} </strong>
+            @if (service.isValidControl('email')) {
+            <strong class="text-red-500"> {{ service.getError('email') }} </strong>
+            }
             <input
               class="w-full h-12 border border-gray-800 px-3 rounded-lg"
               placeholder="Password"
@@ -35,9 +36,12 @@ import { JsonPipe } from '@angular/common';
               formControlName="password"
               required
             />
-            <strong class="text-red-500"> {{service.getError('password')}} </strong>
+            @if (service.isValidControl('password')) {
+            <strong class="text-red-500"> {{ service.getError('password') }} </strong>
+            }
             <button
               type="submit"
+              [disabled]="service.submitValid"
               class="w-full h-12 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
               Sign in

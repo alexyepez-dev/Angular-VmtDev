@@ -1,5 +1,7 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { getError } from '../../../shared/validations/get-error.validator';
+import { isValidControl } from '../../../shared/validations/valid-control.validator';
 
 @Injectable({
   providedIn: 'root',
@@ -17,12 +19,15 @@ export class LoginFormService {
     console.log(value);
   }
 
-  getError(controlName: string): string | null {
-    const control = this.formLogin.get(controlName);
-    if (control?.touched && control.errors) {
-      if (control.errors['required']) return 'Este campo es obligatorio.';
-      if (control.errors['email']) return 'Formato de email inválido.';
-    }
-    return null;
+  getError(controlName: string) {
+    return getError(this.formLogin, controlName);
+  }
+
+  isValidControl(controlName: string) {
+    return isValidControl(this.formLogin, controlName);
+  }
+
+  get submitValid(): boolean {
+    return this.formLogin.invalid;
   }
 }
