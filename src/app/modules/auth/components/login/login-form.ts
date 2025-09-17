@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginFormService } from '../../services/login-form.service';
+import { LoginModel } from '../../models/login.model';
 
 @Component({
   selector: 'login-form',
@@ -18,7 +19,7 @@ import { LoginFormService } from '../../services/login-form.service';
           class="bg-white p-16 rounded-lg shadow-2xl w-80 relative z-10 transform transition duration-500 ease-in-out"
         >
           <h2 id="form-title" class="text-center text-3xl font-bold mb-10 text-gray-800">Login</h2>
-          <form [formGroup]="service.formLogin" (ngSubmit)="service.click()" class="space-y-5">
+          <form [formGroup]="service.formLogin" (ngSubmit)="onLogin()" class="space-y-5">
             <input
               class="w-full h-12 border border-gray-800 px-3 rounded-lg"
               placeholder="Email"
@@ -54,5 +55,13 @@ import { LoginFormService } from '../../services/login-form.service';
   `,
 })
 export class LoginForm {
+  @Output() onFormValue = new EventEmitter<LoginModel>();
+
   protected service = inject(LoginFormService);
+
+  onLogin() {
+    if (this.service.formLogin.invalid) return;
+
+    this.onFormValue.emit(this.service.formLogin.value as LoginModel);
+  }
 }
