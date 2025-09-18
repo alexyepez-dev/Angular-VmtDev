@@ -1,18 +1,15 @@
+/* Importar Tailwind CSS */
 @import 'tailwindcss';
 
-body,
-html {
-  width: 100%;
-  height: 100%;
-}
+/* Importar el tema de Angular Material que elegiste */
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css'; 
+
+/* Consolidar los estilos globales para evitar redundancia y conflictos */
 html,
 body {
   height: 100%;
-}
-body {
+  width: 100%;
   margin: 0;
-  font-family: 'Poppins', sans-serif;
-}
-* {
-  font-family: 'Poppins', sans-serif;
+  /* Elige una de las fuentes para evitar conflictos */
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
